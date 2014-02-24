@@ -46,8 +46,8 @@ module Adyen
       end
 
       # @see API.authorise_recurring_payment
-      def authorise_recurring_payment
-        make_payment_request(authorise_recurring_payment_request_body, AuthorisationResponse)
+      def authorise_recurring_payment(sepa = false)
+        make_payment_request(authorise_recurring_payment_request_body(sepa), AuthorisationResponse)
       end
 
       # @see API.authorise_one_click_payment
@@ -90,9 +90,10 @@ module Adyen
         payment_request_body(content)
       end
 
-      def authorise_recurring_payment_request_body
+      def authorise_recurring_payment_request_body(sepa = false)
         validate_parameters!(:shopper => [:email, :reference])
-        content = RECURRING_PAYMENT_BODY_PARTIAL % (@params[:recurring_detail_reference] || 'LATEST')
+        template = sepa ? RECURRING_SEPA_PAYMENT_BODY_PARTIAL : RECURRING_PAYMENT_BODY_PARTIAL
+        content = template % (@params[:recurring_detail_reference] || 'LATEST')
         payment_request_body(content)
       end
 
@@ -153,12 +154,12 @@ module Adyen
       def shopper_partial
         @params[:shopper].map { |k, v| SHOPPER_PARTIALS[k] % v }.join("\n")
       end
-      
+
       def fraud_offset_partial
         validate_parameters!(:fraud_offset)
         FRAUD_OFFSET_PARTIAL % @params[:fraud_offset]
       end
-        
+
       class AuthorisationResponse < Response
         ERRORS = {
           "validation 101 Invalid card number"                           => [:number,       'is not a valid creditcard number'],

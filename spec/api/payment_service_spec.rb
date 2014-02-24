@@ -23,11 +23,11 @@ shared_examples_for "payment requests" do
     text('./payment:shopperIP').should == '61.294.12.12'
     text('./payment:shopperStatement').should == 'invoice number 123456'
   end
-  
+
   it "includes the fraud offset" do
     text('./payment:fraudOffset').should == '30'
   end
-  
+
   it "does not include the fraud offset if none is given" do
     @payment.params.delete(:fraud_offset)
     xpath('./payment:fraudOffset').should be_empty
@@ -113,7 +113,7 @@ describe Adyen::API::PaymentService do
       @payment.params[:recurring] = true
       @payment.params[:shopper] = nil
     end
-    
+
     it_should_validate_request_param(:fraud_offset) do
       @payment.params[:fraud_offset] = ''
     end
@@ -239,6 +239,13 @@ describe Adyen::API::PaymentService do
         stub_net_http(AUTHORISE_REQUEST_INVALID_RESPONSE % message)
         @response = @payment.authorise_payment
       end
+    end
+  end
+
+  describe 'authorise_recurring_payment', 'with SEPA' do
+    it 'includes the selectedBrand node' do
+      expect(@payment.authorise_recurring_payment_request_body(true)).to include(
+        '<payment:selectedBrand>sepadirectdebit</payment:selectedBrand>')
     end
   end
 

@@ -93,6 +93,16 @@ EOS
 EOS
 
       # @private
+      RECURRING_SEPA_PAYMENT_BODY_PARTIAL = <<EOS
+        <payment:recurring>
+          <payment:contract>RECURRING</payment:contract>
+        </payment:recurring>
+        <payment:selectedRecurringDetailReference>%s</payment:selectedRecurringDetailReference>
+        <payment:shopperInteraction>ContAuth</payment:shopperInteraction>
+        <payment:selectedBrand>sepadirectdebit</payment:selectedBrand>
+EOS
+
+      # @private
       ONE_CLICK_PAYMENT_BODY_PARTIAL = <<EOS
         <payment:recurring>
           <payment:contract>ONECLICK</payment:contract>
@@ -110,7 +120,7 @@ EOS
         :ip        => '        <payment:shopperIP>%s</payment:shopperIP>',
         :statement => '        <payment:shopperStatement>%s</payment:shopperStatement>',
       }
-                              
+
       # @private
       FRAUD_OFFSET_PARTIAL = '<payment:fraudOffset>%s</payment:fraudOffset>'
     end
