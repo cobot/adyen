@@ -240,6 +240,29 @@ AUTHORISE_RESPONSE = <<EOS
 </soap:Envelope>
 EOS
 
+AUTHORISE_SEPA_RESPONSE = <<EOS
+  <?xml version="1.0" encoding="UTF-8"?>
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Body>
+      <ns1:authoriseResponse xmlns:ns1="http://payment.services.adyen.com">
+        <ns1:paymentResult>
+          <additionalData xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <authCode xmlns="http://payment.services.adyen.com">1234</authCode>
+          <dccAmount xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <dccSignature xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <fraudResult xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <issuerUrl xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <md xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <paRequest xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <pspReference xmlns="http://payment.services.adyen.com">9876543210987654</pspReference>
+          <refusalReason xmlns="http://payment.services.adyen.com" xsi:nil="true"/>
+          <resultCode xmlns="http://payment.services.adyen.com">Received</resultCode>
+        </ns1:paymentResult>
+      </ns1:authoriseResponse>
+    </soap:Body>
+  </soap:Envelope>
+EOS
+
 AUTHORISATION_DECLINED_RESPONSE = <<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -334,7 +357,7 @@ LIST_RESPONSE = <<EOS
           </RecurringDetail>
           <RecurringDetail>
             <card xsi:nil="true"/>
-            <bank xsi:nil="true"/>            
+            <bank xsi:nil="true"/>
             <elv>
               <accountHolderName xmlns="http://payment.services.adyen.com">S. Hopper</accountHolderName>
               <bankAccountNumber xmlns="http://payment.services.adyen.com">1234567890</bankAccountNumber>

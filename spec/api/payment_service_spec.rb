@@ -148,6 +148,15 @@ describe Adyen::API::PaymentService do
     end
   end
 
+  describe_response_from :authorise_payment, AUTHORISE_SEPA_RESPONSE do
+    describe "with a authorized response" do
+      it "returns that the request was authorised" do
+        @response.should be_success
+        @response.should be_authorized
+      end
+    end
+  end
+
   describe_response_from :authorise_payment, AUTHORISE_RESPONSE do
     it_should_return_params_for_each_xml_backend({
       :psp_reference => '9876543210987654',

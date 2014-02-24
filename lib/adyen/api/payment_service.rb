@@ -170,12 +170,13 @@ module Adyen
         }
 
         AUTHORISED = 'Authorised'
+        RECEIVED = 'Received'
         REFUSED    = 'Refused'
 
         response_attrs :result_code, :auth_code, :refusal_reason, :psp_reference
 
         def success?
-          super && params[:result_code] == AUTHORISED
+          super && [AUTHORISED, RECEIVED].include?(params[:result_code])
         end
 
         def refused?
